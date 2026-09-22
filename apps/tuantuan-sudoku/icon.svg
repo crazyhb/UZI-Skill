@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="face" cx="50%" cy="55%" r="55%">
+      <stop offset="0" stop-color="#ffc857"/>
+      <stop offset="0.72" stop-color="#ffb03a"/>
+      <stop offset="1" stop-color="#f0a04b"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" fill="#d7f1f8"/>
+  <g stroke="#2c4a52" stroke-opacity="0.18" stroke-width="6">
+    <path d="M56 170H456M56 342H456M170 56V456M342 56V456"/>
+  </g>
+  <circle cx="256" cy="262" r="150" fill="url(#face)"/>
+  <circle cx="204" cy="226" r="30" fill="#fff"/>
+  <circle cx="308" cy="226" r="30" fill="#fff"/>
+  <circle cx="204" cy="226" r="12" fill="#243035"/>
+  <circle cx="308" cy="226" r="12" fill="#243035"/>
+  <circle cx="256" cy="298" r="18" fill="#ff8d7a"/>
+  <circle cx="376" cy="380" r="54" fill="#5dbe7e"/>
+  <text x="376" y="400" font-size="60" text-anchor="middle" fill="#fff" font-family="PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700">&#22242;</text>
+</svg>
