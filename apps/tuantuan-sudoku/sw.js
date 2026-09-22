@@ -1,4 +1,4 @@
-const CACHE = "tuantuan-sudoku-v1";
+const CACHE = "tuantuan-sudoku-v2";
 const ASSETS = [
   "./",
   "./index.html",
@@ -9,8 +9,13 @@ const ASSETS = [
   "./icon-512.png",
 ];
 
+// 逐个缓存：静态托管（如 githack）会把图标等文件跳转到别的域名，单个失败不能拖垮整次安装
 self.addEventListener("install", (event) => {
-  event.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)));
+  event.waitUntil(
+    caches.open(CACHE).then((c) =>
+      Promise.all(ASSETS.map((url) => c.add(url).catch(() => {})))
+    )
+  );
   self.skipWaiting();
 });
 
