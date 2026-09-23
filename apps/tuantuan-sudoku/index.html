@@ -2,12 +2,21 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#5BB8D4" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="团团数独" />
+  <meta name="format-detection" content="telephone=no" />
   <title>团团数独 · 简易九乘九</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icon-180.png" />
+  <!-- 字体异步加载：国内访问 Google Fonts 慢时不阻塞页面，退回系统字体 -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Nunito:wght@700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Nunito:wght@700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <style>
     :root {
       --sky: #5bb8d4;
@@ -34,13 +43,29 @@
         radial-gradient(ellipse 80% 48% at 100% 0%, rgba(91, 184, 212, 0.4), transparent 52%),
         radial-gradient(ellipse 70% 40% at 50% 100%, rgba(93, 190, 126, 0.22), transparent 55%),
         linear-gradient(160deg, #e7f7fb 0%, #fff6e8 52%, #eefaf1 100%);
+      background-attachment: fixed;
+      overscroll-behavior: none;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    button {
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      user-select: none;
+      -webkit-user-select: none;
     }
 
     .app {
       max-width: 560px;
       margin: 0 auto;
+      min-height: 100vh;
       min-height: 100dvh;
-      padding: 16px 14px 28px;
+      padding:
+        calc(12px + env(safe-area-inset-top))
+        calc(12px + env(safe-area-inset-right))
+        calc(16px + env(safe-area-inset-bottom))
+        calc(12px + env(safe-area-inset-left));
       display: flex;
       flex-direction: column;
     }
@@ -183,10 +208,11 @@
     }
     .pill-btn {
       appearance: none; border: none; background: #fff; box-shadow: var(--shadow);
-      border-radius: 999px; padding: 9px 13px; font-family: inherit;
-      font-weight: 800; font-size: 0.88rem; cursor: pointer; color: var(--ink);
+      border-radius: 999px; padding: 9px 14px; min-height: 44px; font-family: inherit;
+      font-weight: 800; font-size: 0.95rem; cursor: pointer; color: var(--ink);
       white-space: nowrap;
     }
+    .pill-btn:active, .pal-btn:active, .big-btn:active, .chip:active { transform: scale(0.95); }
     .status {
       font-family: "ZCOOL KuaiLe", sans-serif; font-size: 1rem; color: var(--muted);
       text-align: center; flex: 1;
@@ -201,11 +227,22 @@
       gap: 12px;
     }
 
+    .controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+
     .board {
       display: grid;
       grid-template-columns: repeat(9, 1fr);
       width: min(100%, 440px);
+      /* 竖屏手机：给下方图案和按钮留约 310px，棋盘最小 300px，再小就允许轻微滚动 */
+      width: min(100%, 440px, max(300px, calc(100dvh - 310px - env(safe-area-inset-top) - env(safe-area-inset-bottom))));
       aspect-ratio: 1;
+      flex-shrink: 0;
       background: var(--board);
       border-radius: 16px;
       overflow: hidden;
@@ -222,7 +259,8 @@
       display: grid;
       place-items: center;
       font-family: "ZCOOL KuaiLe", cursive;
-      font-size: clamp(0.95rem, 4.4vw, 1.35rem);
+      font-size: clamp(1rem, 5.4vw, 1.45rem);
+      line-height: 1;
       cursor: pointer;
       padding: 0;
       color: var(--ink);
@@ -271,10 +309,44 @@
     .pal-btn.blocked { opacity: 0.35; }
     .pal-btn.done { opacity: 0.28; }
 
-    .tools { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .tools {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      width: min(100%, 320px);
+    }
     .feedback {
       min-height: 1.35em; text-align: center;
-      font-family: "ZCOOL KuaiLe", sans-serif; font-size: 1.1rem; color: var(--muted);
+      font-family: "ZCOOL KuaiLe", sans-serif; font-size: 1.05rem; color: var(--muted);
+    }
+
+    @media (max-width: 600px) {
+      .palette, .tools { width: min(100%, 440px); }
+      .palette { grid-template-columns: repeat(5, 1fr); gap: 7px; }
+      .pal-btn { height: 54px; font-size: 1.6rem; }
+      .hero { padding-top: 10px; }
+      .mode-btn { padding: 14px 14px; }
+    }
+
+    @media (orientation: portrait) and (max-height: 620px) {
+      .topbar { margin-bottom: 4px; }
+      .board-wrap, .controls { gap: 6px; }
+      .pal-btn { height: 48px; }
+      .feedback { font-size: 0.95rem; }
+    }
+
+    @media (orientation: landscape) and (max-height: 540px) {
+      .app { max-width: 900px; }
+      .topbar { margin-bottom: 4px; }
+      .board-wrap { flex-direction: row; gap: 16px; }
+      .board {
+        width: min(55vw, calc(100vh - 90px));
+        width: min(55vw, calc(100dvh - 90px - env(safe-area-inset-top) - env(safe-area-inset-bottom)));
+      }
+      .controls { width: min(42vw, 340px); }
+      .palette, .tools { width: 100%; }
+      .palette { grid-template-columns: repeat(3, 1fr); }
+      .pal-btn { height: min(52px, 13vh); }
     }
     .feedback.good { color: #2f8a4e; }
     .feedback.bad { color: #c24b45; }
@@ -357,12 +429,14 @@
       </div>
       <div class="board-wrap">
         <div class="board" id="board" role="grid" aria-label="九乘九数独棋盘"></div>
-        <p class="feedback" id="feedback">先点一个空格哦</p>
-        <div class="palette" id="palette"></div>
-        <div class="tools">
-          <button type="button" class="pill-btn" id="eraseBtn">擦掉</button>
-          <button type="button" class="pill-btn" id="hintBtn">提示一下</button>
-          <button type="button" class="pill-btn" id="checkBtn">检查</button>
+        <div class="controls">
+          <p class="feedback" id="feedback">先点一个空格哦</p>
+          <div class="palette" id="palette"></div>
+          <div class="tools">
+            <button type="button" class="pill-btn" id="eraseBtn">擦掉</button>
+            <button type="button" class="pill-btn" id="hintBtn">提示</button>
+            <button type="button" class="pill-btn" id="checkBtn">检查</button>
+          </div>
         </div>
       </div>
     </section>
@@ -416,6 +490,11 @@
     function show(screen) {
       [el.home, el.play, el.result].forEach((s) => s.classList.remove("active"));
       screen.classList.add("active");
+      window.scrollTo(0, 0);
+    }
+
+    function buzz(pattern) {
+      if (navigator.vibrate) navigator.vibrate(pattern);
     }
 
     function speak(text) {
@@ -556,6 +635,7 @@
         el.feedback.className = "feedback bad";
         el.feedback.textContent = "哎呀，这一行、列或小九宫有重复";
         speak("有重复哦");
+        buzz([60, 40, 60]);
       } else {
         cell.classList.add("ok-flash");
         el.feedback.className = "feedback good";
@@ -651,6 +731,7 @@
       el.feedback.textContent = "全部正确！";
       el.status.textContent = "通关！";
       burstConfetti();
+      buzz([80, 60, 80, 60, 160]);
       speak("团团通关啦，真棒");
       const names = { starter: "启蒙", easy: "轻松", smart: "聪明" };
       el.resultMsg.textContent = names[state.level] + "九乘九完成啦，每一行每一列都不重复！";
@@ -683,6 +764,12 @@
       if (e.key >= "1" && e.key <= "9") pickSymbol(Number(e.key));
       if (e.key === "Backspace" || e.key === "Delete") eraseSelected();
     });
+
+    if ("serviceWorker" in navigator && location.protocol !== "file:") {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("sw.js").catch(() => {});
+      });
+    }
   </script>
 </body>
 </html>
