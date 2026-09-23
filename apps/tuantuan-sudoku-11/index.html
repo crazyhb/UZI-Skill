@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-  <meta name="theme-color" content="#5BB8D4" />
+  <meta name="theme-color" content="#C084FC" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="团团数独" />
+  <meta name="apple-mobile-web-app-title" content="团团11×11" />
   <meta name="format-detection" content="telephone=no" />
-  <title>团团数独 · 简易九乘九</title>
+  <title>团团数独 · 11×11 拼图版</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="icon-180.png" />
@@ -21,12 +21,13 @@
     :root {
       --sky: #5bb8d4;
       --sky-soft: #d7f1f8;
+      --grape: #c084fc;
+      --grape-soft: #efe2ff;
       --sun: #ffc857;
       --leaf: #5dbe7e;
       --coral: #ff7a6e;
       --ink: #243035;
       --muted: #5f7278;
-      --white: #ffffff;
       --board: #fffdf8;
       --line: #2c4a52;
       --shadow: 0 12px 30px rgba(36, 48, 53, 0.12);
@@ -39,10 +40,10 @@
       font-family: "Nunito", "ZCOOL KuaiLe", "PingFang SC", "Microsoft YaHei", sans-serif;
       color: var(--ink);
       background:
-        radial-gradient(ellipse 90% 50% at 0% 0%, rgba(255, 200, 87, 0.38), transparent 55%),
+        radial-gradient(ellipse 90% 50% at 0% 0%, rgba(192, 132, 252, 0.32), transparent 55%),
         radial-gradient(ellipse 80% 48% at 100% 0%, rgba(91, 184, 212, 0.4), transparent 52%),
-        radial-gradient(ellipse 70% 40% at 50% 100%, rgba(93, 190, 126, 0.22), transparent 55%),
-        linear-gradient(160deg, #e7f7fb 0%, #fff6e8 52%, #eefaf1 100%);
+        radial-gradient(ellipse 70% 40% at 50% 100%, rgba(255, 200, 87, 0.25), transparent 55%),
+        linear-gradient(160deg, #f1e9fd 0%, #eaf6fb 52%, #fff6e8 100%);
       background-attachment: fixed;
       overscroll-behavior: none;
       -webkit-text-size-adjust: 100%;
@@ -57,15 +58,15 @@
     }
 
     .app {
-      max-width: 560px;
+      max-width: 600px;
       margin: 0 auto;
       min-height: 100vh;
       min-height: 100dvh;
       padding:
         calc(12px + env(safe-area-inset-top))
-        calc(12px + env(safe-area-inset-right))
+        calc(10px + env(safe-area-inset-right))
         calc(16px + env(safe-area-inset-bottom))
-        calc(12px + env(safe-area-inset-left));
+        calc(10px + env(safe-area-inset-left));
       display: flex;
       flex-direction: column;
     }
@@ -92,6 +93,9 @@
     }
     @keyframes confettiFall {
       to { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
 
     .hero {
@@ -120,32 +124,34 @@
     }
 
     .mascot::after {
-      content: "团";
+      content: "11";
       position: absolute;
-      right: -2px;
+      right: -6px;
       bottom: -4px;
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
-      background: var(--leaf);
+      background: var(--grape);
       color: #fff;
-      font-family: "ZCOOL KuaiLe", sans-serif;
-      font-size: 19px;
-      line-height: 36px;
+      font-family: "Nunito", sans-serif;
+      font-weight: 800;
+      font-size: 17px;
+      line-height: 38px;
+      text-align: center;
     }
 
     .brand {
       font-family: "ZCOOL KuaiLe", cursive;
-      font-size: clamp(2.2rem, 9vw, 2.9rem);
+      font-size: clamp(2.1rem, 8.5vw, 2.8rem);
       letter-spacing: 0.04em;
-      text-shadow: 3px 4px 0 rgba(255, 200, 87, 0.55);
+      text-shadow: 3px 4px 0 rgba(192, 132, 252, 0.45);
     }
 
     .tagline {
       color: var(--muted);
       font-size: 0.98rem;
       line-height: 1.5;
-      max-width: 320px;
+      max-width: 330px;
     }
 
     .mode-list { display: flex; flex-direction: column; gap: 12px; margin-top: 18px; }
@@ -176,10 +182,10 @@
     }
     .mode-btn[data-level="starter"] .mode-icon { background: #ffe7b0; }
     .mode-btn[data-level="easy"] .mode-icon { background: #d9f3e2; }
-    .mode-btn[data-level="smart"] .mode-icon { background: #f7d9d5; }
+    .mode-btn[data-level="smart"] .mode-icon { background: #efe2ff; }
     .mode-title { font-family: "ZCOOL KuaiLe", sans-serif; font-size: 1.28rem; }
     .mode-desc { font-size: 0.86rem; color: var(--muted); margin-top: 2px; }
-    .chev { color: var(--sky); font-size: 1.5rem; font-weight: 800; }
+    .chev { color: var(--grape); font-size: 1.5rem; font-weight: 800; }
 
     .theme-bar {
       margin-top: 16px;
@@ -197,12 +203,12 @@
     .chip {
       appearance: none; border: 2px solid transparent; background: #fff;
       border-radius: 999px; padding: 7px 13px; font-family: inherit;
-      font-weight: 800; font-size: 0.84rem; cursor: pointer;
+      font-weight: 800; font-size: 0.84rem; cursor: pointer; min-height: 40px;
     }
-    .chip.active { border-color: var(--sky); background: var(--sky-soft); color: #1d6175; }
+    .chip.active { border-color: var(--grape); background: var(--grape-soft); color: #5b2d91; }
     .hint-note { margin-top: 12px; text-align: center; font-size: 0.82rem; color: var(--muted); line-height: 1.45; }
     .sibling-link {
-      display: inline-block; margin: 10px auto 0; color: #5b2d91; font-weight: 800;
+      display: inline-block; margin: 10px auto 0; color: #1d6175; font-weight: 800;
       font-size: 0.88rem; text-decoration: none; padding: 8px 14px; border-radius: 999px;
       background: rgba(255,255,255,0.7);
     }
@@ -229,86 +235,101 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .controls {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       width: 100%;
     }
 
     .board {
       display: grid;
-      grid-template-columns: repeat(9, 1fr);
-      width: min(100%, 440px);
-      /* 竖屏手机：给下方图案和按钮留约 310px，棋盘最小 300px，再小就允许轻微滚动 */
-      width: min(100%, 440px, max(300px, calc(100dvh - 310px - env(safe-area-inset-top) - env(safe-area-inset-bottom))));
+      grid-template-columns: repeat(11, 1fr);
+      width: min(100%, 480px);
+      /* 竖屏手机：给下方图案和按钮留约 290px，棋盘最小 300px */
+      width: min(100%, 480px, max(300px, calc(100dvh - 290px - env(safe-area-inset-top) - env(safe-area-inset-bottom))));
       aspect-ratio: 1;
       flex-shrink: 0;
       background: var(--board);
-      border-radius: 16px;
+      border-radius: 14px;
       overflow: hidden;
       box-shadow: var(--shadow);
       border: 3px solid var(--line);
       touch-action: manipulation;
+      position: relative;
     }
     .board.win { animation: glowWin 1.1s ease infinite; }
 
+    .board.loading::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.7);
+    }
+
     .cell {
       appearance: none;
-      border: 1px solid rgba(44, 74, 82, 0.18);
+      border: 1px solid rgba(44, 74, 82, 0.14);
       background: transparent;
       display: grid;
       place-items: center;
       font-family: "ZCOOL KuaiLe", cursive;
-      font-size: clamp(1rem, 5.4vw, 1.45rem);
+      font-size: clamp(0.8rem, 4.6vw, 1.3rem);
       line-height: 1;
       cursor: pointer;
       padding: 0;
       color: var(--ink);
       position: relative;
+      min-width: 0;
+      overflow: hidden;
     }
-    .cell.box-0 { background: #fff7e6; }
-    .cell.box-1 { background: #e8f6fb; }
-    .cell.box-2 { background: #eef8ee; }
-    .cell.box-3 { background: #fdeeee; }
-    .cell.box-4 { background: #f3eefb; }
-    .cell.box-5 { background: #fff3e8; }
-    .cell.box-6 { background: #e8f3ff; }
-    .cell.box-7 { background: #f4f8e8; }
-    .cell.box-8 { background: #ffeef6; }
+    .cell.num { font-family: "Nunito", sans-serif; font-weight: 800; font-size: clamp(0.7rem, 3.6vw, 1.05rem); }
+    /* 11 块拼图的颜色 */
+    .cell.reg-0 { background: #fff3d6; }
+    .cell.reg-1 { background: #dcf3fb; }
+    .cell.reg-2 { background: #e2f7e6; }
+    .cell.reg-3 { background: #ffe4e1; }
+    .cell.reg-4 { background: #ece2fb; }
+    .cell.reg-5 { background: #ffe9d2; }
+    .cell.reg-6 { background: #dfeeff; }
+    .cell.reg-7 { background: #f1f7d9; }
+    .cell.reg-8 { background: #ffe3f0; }
+    .cell.reg-9 { background: #d9f5f0; }
+    .cell.reg-10 { background: #f3ecdc; }
 
     .cell.given { font-weight: 800; cursor: default; }
-    .cell.peer { filter: brightness(0.96); }
+    .cell.peer { filter: brightness(0.95); }
     .cell.selected {
       outline: 3px solid var(--sun);
       outline-offset: -3px;
       z-index: 2;
       background: #ffe28a !important;
     }
-    .cell.same { box-shadow: inset 0 0 0 2px rgba(91, 184, 212, 0.55); }
+    .cell.same { box-shadow: inset 0 0 0 2px rgba(192, 132, 252, 0.7); }
     .cell.error { background: #ffc4be !important; animation: shake 0.28s ease; }
     .cell.ok-flash { background: #c8f0d4 !important; }
-    .cell.player { color: #17657c; }
+    .cell.player { color: #5b2d91; }
 
     .palette {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      width: min(100%, 320px);
+      grid-template-columns: repeat(6, 1fr);
+      gap: 6px;
+      width: min(100%, 480px);
     }
     .pal-btn {
-      appearance: none; border: none; height: 58px; border-radius: 16px;
+      appearance: none; border: none; height: 50px; border-radius: 14px;
       background: #fff; box-shadow: var(--shadow);
       font-family: "ZCOOL KuaiLe", cursive; font-size: 1.45rem;
-      cursor: pointer; color: var(--ink); position: relative;
+      cursor: pointer; color: var(--ink); position: relative; min-width: 0;
     }
+    .pal-btn.num { font-family: "Nunito", sans-serif; font-weight: 800; font-size: 1.2rem; }
     .pal-btn small {
-      position: absolute; right: 7px; bottom: 5px;
-      font-size: 0.7rem; font-family: Nunito, sans-serif; color: var(--muted);
+      position: absolute; right: 5px; bottom: 3px;
+      font-size: 0.66rem; font-family: Nunito, sans-serif; color: var(--muted);
     }
     .pal-btn.active { background: var(--sun); }
     .pal-btn.blocked { opacity: 0.35; }
@@ -318,40 +339,11 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 8px;
-      width: min(100%, 320px);
+      width: min(100%, 360px);
     }
     .feedback {
       min-height: 1.35em; text-align: center;
       font-family: "ZCOOL KuaiLe", sans-serif; font-size: 1.05rem; color: var(--muted);
-    }
-
-    @media (max-width: 600px) {
-      .palette, .tools { width: min(100%, 440px); }
-      .palette { grid-template-columns: repeat(5, 1fr); gap: 7px; }
-      .pal-btn { height: 54px; font-size: 1.6rem; }
-      .hero { padding-top: 10px; }
-      .mode-btn { padding: 14px 14px; }
-    }
-
-    @media (orientation: portrait) and (max-height: 620px) {
-      .topbar { margin-bottom: 4px; }
-      .board-wrap, .controls { gap: 6px; }
-      .pal-btn { height: 48px; }
-      .feedback { font-size: 0.95rem; }
-    }
-
-    @media (orientation: landscape) and (max-height: 540px) {
-      .app { max-width: 900px; }
-      .topbar { margin-bottom: 4px; }
-      .board-wrap { flex-direction: row; gap: 16px; }
-      .board {
-        width: min(55vw, calc(100vh - 90px));
-        width: min(55vw, calc(100dvh - 90px - env(safe-area-inset-top) - env(safe-area-inset-bottom)));
-      }
-      .controls { width: min(42vw, 340px); }
-      .palette, .tools { width: 100%; }
-      .palette { grid-template-columns: repeat(3, 1fr); }
-      .pal-btn { height: min(52px, 13vh); }
     }
     .feedback.good { color: #2f8a4e; }
     .feedback.bad { color: #c24b45; }
@@ -364,18 +356,44 @@
     .big-btn {
       appearance: none; border: none; cursor: pointer; padding: 14px 24px;
       border-radius: 999px; font-family: "ZCOOL KuaiLe", sans-serif;
-      font-size: 1.18rem; box-shadow: var(--shadow);
+      font-size: 1.18rem; box-shadow: var(--shadow); min-height: 48px;
     }
     .big-btn.primary { background: var(--sun); }
     .big-btn.secondary { background: #fff; }
     .action-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 
-    .confetti {
-      position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 9;
-    }
+    .confetti { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 9; }
     .confetti i {
       position: absolute; top: -12px; width: 10px; height: 16px; border-radius: 2px;
       animation: confettiFall 1.6s linear forwards;
+    }
+
+    @media (max-width: 600px) {
+      .palette, .tools { width: 100%; }
+      .pal-btn { height: 48px; font-size: 1.4rem; }
+      .hero { padding-top: 10px; }
+      .mode-btn { padding: 14px 14px; }
+    }
+
+    @media (orientation: portrait) and (max-height: 620px) {
+      .topbar { margin-bottom: 4px; }
+      .board-wrap, .controls { gap: 5px; }
+      .pal-btn { height: 42px; font-size: 1.25rem; }
+      .feedback { font-size: 0.95rem; }
+    }
+
+    @media (orientation: landscape) and (max-height: 540px) {
+      .app { max-width: 940px; }
+      .topbar { margin-bottom: 4px; }
+      .board-wrap { flex-direction: row; gap: 16px; }
+      .board {
+        width: min(55vw, calc(100vh - 90px));
+        width: min(55vw, calc(100dvh - 90px - env(safe-area-inset-top) - env(safe-area-inset-bottom)));
+      }
+      .controls { width: min(42vw, 360px); }
+      .palette, .tools { width: 100%; }
+      .palette { grid-template-columns: repeat(4, 1fr); }
+      .pal-btn { height: min(46px, 12vh); }
     }
   </style>
 </head>
@@ -384,32 +402,32 @@
     <section id="home" class="screen active">
       <div class="hero">
         <div class="mascot" aria-hidden="true"></div>
-        <h1 class="brand">团团数独</h1>
-        <p class="tagline">给四岁聪明宝宝的简易 9×9 九宫格，空格很少，先认图案再认数字</p>
+        <h1 class="brand">团团数独 11×11</h1>
+        <p class="tagline">11 块彩色拼图当"宫"，每块 11 格。同一行、同一列、同一块拼图里，图案都不能重复</p>
       </div>
 
       <div class="mode-list">
         <button type="button" class="mode-btn" data-level="starter">
-          <span class="mode-icon">9格</span>
+          <span class="mode-icon">11格</span>
           <span>
-            <div class="mode-title">启蒙九乘九</div>
-            <div class="mode-desc">整盘 9×9，只空大约 9 格，最适合第一次</div>
+            <div class="mode-title">启蒙 11×11</div>
+            <div class="mode-desc">整盘 11×11，只空大约 11 格，每块拼图缺一个</div>
           </span>
           <span class="chev">›</span>
         </button>
         <button type="button" class="mode-btn" data-level="easy">
-          <span class="mode-icon">18</span>
+          <span class="mode-icon">22</span>
           <span>
-            <div class="mode-title">轻松九乘九</div>
-            <div class="mode-desc">空 18 格，练看同一行、同一列</div>
+            <div class="mode-title">轻松 11×11</div>
+            <div class="mode-desc">空 22 格，看行、看列、再看拼图块</div>
           </span>
           <span class="chev">›</span>
         </button>
         <button type="button" class="mode-btn" data-level="smart">
-          <span class="mode-icon">27</span>
+          <span class="mode-icon">33</span>
           <span>
-            <div class="mode-title">聪明九乘九</div>
-            <div class="mode-desc">空 27 格，爸妈可以在旁边提一句</div>
+            <div class="mode-title">聪明 11×11</div>
+            <div class="mode-desc">空 33 格，爸妈可以在旁边提一句</div>
           </span>
           <span class="chev">›</span>
         </button>
@@ -423,8 +441,8 @@
           <button type="button" class="chip" data-theme="number">数字</button>
         </div>
       </div>
-      <p class="hint-note">规则一句话：同一行、同一列、同一个小九宫里，图案都不能重复。</p>
-      <a class="sibling-link" href="../tuantuan-sudoku-11/index.html">更大的挑战：团团数独 11×11 →</a>
+      <p class="hint-note">小提示：先找"这一块拼图还缺哪个"，再看它的行和列，团团就能很快填出来。</p>
+      <a class="sibling-link" href="../tuantuan-sudoku/index.html">← 回到 9×9 团团数独</a>
     </section>
 
     <section id="play" class="screen">
@@ -434,7 +452,7 @@
         <button type="button" class="pill-btn" id="newBtn">新题</button>
       </div>
       <div class="board-wrap">
-        <div class="board" id="board" role="grid" aria-label="九乘九数独棋盘"></div>
+        <div class="board" id="board" role="grid" aria-label="11×11 拼图数独棋盘"></div>
         <div class="controls">
           <p class="feedback" id="feedback">先点一个空格哦</p>
           <div class="palette" id="palette"></div>
@@ -451,7 +469,7 @@
       <div class="result-panel">
         <div class="mascot" style="animation:none;width:92px;height:92px;"></div>
         <h2>团团通关啦！</h2>
-        <p class="tagline" id="resultMsg">九乘九都填对了，真棒！</p>
+        <p class="tagline" id="resultMsg">11×11 都填对了，真棒！</p>
         <div class="action-row">
           <button type="button" class="big-btn primary" id="againBtn">再来一局</button>
           <button type="button" class="big-btn secondary" id="homeBtn">回首页</button>
@@ -461,18 +479,20 @@
   </div>
   <div class="confetti" id="confetti" hidden></div>
 
-  <script src="sudoku.js"></script>
+  <script src="sudoku11.js"></script>
   <script>
-    const S = window.TuantuanSudoku;
+    const S = window.TuantuanSudoku11;
+    const N = S.SIZE;
     const THEMES = {
-      emoji: ["🍎", "🍌", "🍇", "🍊", "🍓", "🍑", "🍉", "🥝", "🍒"],
-      animal: ["🐶", "🐱", "🐰", "🐻", "🐼", "🦊", "🐯", "🦁", "🐸"],
-      number: ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      emoji: ["🍎", "🍌", "🍇", "🍊", "🍓", "🍑", "🍉", "🥝", "🍒", "🍍", "🥭"],
+      animal: ["🐶", "🐱", "🐰", "🐻", "🐼", "🦊", "🐯", "🦁", "🐸", "🐵", "🐷"],
+      number: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"],
     };
 
     const state = {
       theme: "emoji",
       level: "starter",
+      regions: [],
       solution: [],
       puzzle: [],
       grid: [],
@@ -520,9 +540,8 @@
       speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
     }
 
-    function boxId(i) {
-      const [r, c] = S.rc(i);
-      return Math.floor(r / 3) * 3 + Math.floor(c / 3);
+    function isNumTheme() {
+      return state.theme === "number";
     }
 
     function startGame(level) {
@@ -532,20 +551,28 @@
     }
 
     function newPuzzle() {
-      const pack = S.newPuzzle(state.level);
-      state.solution = pack.solution;
-      state.puzzle = pack.puzzle;
-      state.grid = pack.puzzle.slice();
-      state.given = pack.puzzle.map((v) => v !== 0);
-      state.selected = -1;
-      state.paletteValue = 0;
       el.board.classList.remove("win");
+      el.board.classList.add("loading");
+      el.status.textContent = "团团在摆拼图…";
       el.feedback.className = "feedback";
-      el.feedback.textContent = "先点一个空格哦";
-      el.status.textContent = "还剩 " + S.emptyCount(state.grid) + " 格";
-      renderBoard();
-      renderPalette();
-      speak("开始玩九乘九啦");
+      el.feedback.textContent = "马上就好";
+      // 让"摆拼图"提示先画出来，再做出题计算
+      setTimeout(() => {
+        const pack = S.newPuzzle(state.level);
+        state.regions = pack.regions;
+        state.solution = pack.solution;
+        state.puzzle = pack.puzzle;
+        state.grid = pack.puzzle.slice();
+        state.given = pack.puzzle.map((v) => v !== 0);
+        state.selected = -1;
+        state.paletteValue = 0;
+        el.board.classList.remove("loading");
+        el.feedback.textContent = "先点一个空格哦";
+        el.status.textContent = "还剩 " + S.emptyCount(state.grid) + " 格";
+        renderBoard();
+        renderPalette();
+        speak("开始玩十一乘十一啦");
+      }, 30);
     }
 
     function renderBoard() {
@@ -553,22 +580,23 @@
       el.board.innerHTML = "";
       const sel = state.selected;
       const [sr, sc] = sel >= 0 ? S.rc(sel) : [-1, -1];
-      const sbox = sel >= 0 ? boxId(sel) : -1;
+      const sreg = sel >= 0 ? state.regions[sel] : -1;
       const selVal = sel >= 0 ? state.grid[sel] : 0;
 
-      for (let i = 0; i < 81; i++) {
+      for (let i = 0; i < N * N; i++) {
         const [r, c] = S.rc(i);
         const btn = document.createElement("button");
         btn.type = "button";
-        btn.className = "cell box-" + boxId(i);
+        btn.className = "cell reg-" + state.regions[i] + (isNumTheme() ? " num" : "");
         btn.dataset.i = String(i);
         if (state.given[i]) btn.classList.add("given");
         if (!state.given[i] && state.grid[i]) btn.classList.add("player");
         if (i === sel) btn.classList.add("selected");
-        else if (sel >= 0 && (r === sr || c === sc || boxId(i) === sbox)) btn.classList.add("peer");
+        else if (sel >= 0 && (r === sr || c === sc || state.regions[i] === sreg)) btn.classList.add("peer");
         if (selVal && state.grid[i] === selVal) btn.classList.add("same");
-        if (c === 2 || c === 5) btn.style.borderRight = "2.5px solid var(--line)";
-        if (r === 2 || r === 5) btn.style.borderBottom = "2.5px solid var(--line)";
+        const e = S.regionEdges(state.regions, i);
+        if (e.right && c < N - 1) btn.style.borderRight = "2.5px solid var(--line)";
+        if (e.bottom && r < N - 1) btn.style.borderBottom = "2.5px solid var(--line)";
         btn.textContent = state.grid[i] ? sym[state.grid[i] - 1] : "";
         btn.addEventListener("click", () => selectCell(i));
         el.board.appendChild(btn);
@@ -578,14 +606,15 @@
     function renderPalette() {
       const sym = THEMES[state.theme];
       const left = S.remainingCounts(state.grid);
-      const legal = state.selected >= 0 && !state.given[state.selected] && !state.grid[state.selected]
-        ? S.candidates(state.grid, state.selected)
-        : null;
+      const legal =
+        state.selected >= 0 && !state.given[state.selected] && !state.grid[state.selected]
+          ? S.candidates(state.grid, state.regions, state.selected)
+          : null;
       el.palette.innerHTML = "";
-      for (let v = 1; v <= 9; v++) {
+      for (let v = 1; v <= N; v++) {
         const b = document.createElement("button");
         b.type = "button";
-        b.className = "pal-btn";
+        b.className = "pal-btn" + (isNumTheme() ? " num" : "");
         if (state.paletteValue === v) b.classList.add("active");
         if (left[v] <= 0) b.classList.add("done");
         if (legal && !legal.includes(v)) b.classList.add("blocked");
@@ -636,10 +665,10 @@
       renderBoard();
       renderPalette();
       const cell = el.board.children[i];
-      if (!S.isValidPlace(state.grid, i, val)) {
+      if (!S.isValidPlace(state.grid, state.regions, i, val)) {
         cell.classList.add("error");
         el.feedback.className = "feedback bad";
-        el.feedback.textContent = "哎呀，这一行、列或小九宫有重复";
+        el.feedback.textContent = "哎呀，这一行、列或这块拼图有重复";
         speak("有重复哦");
         buzz([60, 40, 60]);
       } else {
@@ -667,7 +696,7 @@
 
     function giveHint() {
       const empties = [];
-      for (let i = 0; i < 81; i++) {
+      for (let i = 0; i < N * N; i++) {
         if (!state.given[i] && state.grid[i] !== state.solution[i]) empties.push(i);
       }
       if (!empties.length) {
@@ -675,8 +704,9 @@
         el.feedback.textContent = "已经全对啦！";
         return;
       }
-      // 优先提示只有一个候选的格子
-      empties.sort((a, b) => S.candidates(state.grid, a).length - S.candidates(state.grid, b).length);
+      empties.sort(
+        (a, b) => S.candidates(state.grid, state.regions, a).length - S.candidates(state.grid, state.regions, b).length
+      );
       const i = empties[0];
       state.selected = i;
       state.grid[i] = state.solution[i];
@@ -694,7 +724,7 @@
     function checkBoard() {
       let empty = 0;
       let wrong = 0;
-      for (let i = 0; i < 81; i++) {
+      for (let i = 0; i < N * N; i++) {
         if (!state.grid[i]) empty += 1;
         else if (state.grid[i] !== state.solution[i]) wrong += 1;
       }
@@ -717,7 +747,7 @@
       el.confetti.hidden = false;
       el.confetti.innerHTML = "";
       const colors = ["#ffc857", "#5bb8d4", "#5dbe7e", "#ff7a6e", "#c084fc"];
-      for (let i = 0; i < 42; i++) {
+      for (let i = 0; i < 48; i++) {
         const bit = document.createElement("i");
         bit.style.left = Math.random() * 100 + "%";
         bit.style.background = colors[i % colors.length];
@@ -738,9 +768,9 @@
       el.status.textContent = "通关！";
       burstConfetti();
       buzz([80, 60, 80, 60, 160]);
-      speak("团团通关啦，真棒");
+      speak("团团通关啦，十一乘十一都会啦");
       const names = { starter: "启蒙", easy: "轻松", smart: "聪明" };
-      el.resultMsg.textContent = names[state.level] + "九乘九完成啦，每一行每一列都不重复！";
+      el.resultMsg.textContent = names[state.level] + " 11×11 完成啦，11 块拼图都拼对了！";
       setTimeout(() => show(el.result), 900);
     }
 
@@ -768,6 +798,8 @@
     document.addEventListener("keydown", (e) => {
       if (!el.play.classList.contains("active")) return;
       if (e.key >= "1" && e.key <= "9") pickSymbol(Number(e.key));
+      if (e.key === "0") pickSymbol(10);
+      if (e.key === "-" || e.key === "=") pickSymbol(11);
       if (e.key === "Backspace" || e.key === "Delete") eraseSelected();
     });
 
