@@ -4,11 +4,17 @@
 
 ## 在手机上玩
 
-用手机浏览器（Safari / Chrome / 微信内置浏览器都行）打开：
+用手机浏览器（Safari / Chrome）打开：
+
+**固定地址（推荐）**：<https://crazyhb.github.io/UZI-Skill/>
+
+首次使用需要仓库管理员开一次 GitHub Pages：仓库 **Settings → Pages → Build and deployment → Source** 选 **GitHub Actions**。之后每次 `main` 上的 `apps/tuantuan-sudoku/` 有改动，`.github/workflows/tuantuan-sudoku-pages.yml` 会自动测试并发布。
+
+**临时地址**（Pages 开启前可以先用）：
 
 <https://raw.githack.com/crazyhb/UZI-Skill/main/apps/tuantuan-sudoku/index.html>
 
-> 这个 PR 合并到 `main` 之前，把链接里的 `main` 换成 `cursor/tuantuan-jiujiu-speedread-e1c7`。
+第一次打开会出现 githack 的英文提示页，点红色的 **Open the page** 即可，之后再打开会直接进游戏。PR 合并前，把链接里的 `main` 换成 `cursor/tuantuan-jiujiu-speedread-e1c7`。
 
 **加到手机桌面**，之后像 App 一样全屏打开，断网也能玩：
 
