@@ -7,7 +7,7 @@
 ## 在手机上玩
 
 - 固定地址（需要先开 GitHub Pages，见 `../tuantuan-sudoku/README.md`）：<https://crazyhb.github.io/UZI-Skill/tuantuan-sudoku-11/>
-- 两款游戏的入口页：<https://crazyhb.github.io/UZI-Skill/>
+- 三款游戏的入口页：<https://crazyhb.github.io/UZI-Skill/>
 
 加到手机桌面后可以全屏、离线玩：iPhone 在 Safari 点「分享 → 添加到主屏幕」；安卓在 Chrome 点「⋮ → 添加到主屏幕」。
 
