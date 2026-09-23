@@ -4,7 +4,9 @@ on:
   push:
     branches: [main]
     paths:
+      - "apps/index.html"
       - "apps/tuantuan-sudoku/**"
+      - "apps/tuantuan-sudoku-11/**"
       - ".github/workflows/tuantuan-sudoku-pages.yml"
   workflow_dispatch:
 
@@ -31,12 +33,16 @@ jobs:
           node-version: 20
 
       - name: 核心逻辑测试
-        run: node apps/tuantuan-sudoku/tests/sudoku.test.cjs
+        run: |
+          node apps/tuantuan-sudoku/tests/sudoku.test.cjs
+          node apps/tuantuan-sudoku-11/tests/sudoku11.test.cjs
 
       - name: 准备站点文件
         run: |
-          mkdir -p _site
-          cp apps/tuantuan-sudoku/{index.html,sudoku.js,sw.js,manifest.webmanifest,icon.svg,icon-180.png,icon-512.png} _site/
+          mkdir -p _site/tuantuan-sudoku _site/tuantuan-sudoku-11
+          cp apps/index.html _site/
+          cp apps/tuantuan-sudoku/{index.html,sudoku.js,sw.js,manifest.webmanifest,icon.svg,icon-180.png,icon-512.png} _site/tuantuan-sudoku/
+          cp apps/tuantuan-sudoku-11/{index.html,sudoku11.js,sw.js,manifest.webmanifest,icon.svg,icon-180.png,icon-512.png} _site/tuantuan-sudoku-11/
 
       - uses: actions/configure-pages@v5
 
